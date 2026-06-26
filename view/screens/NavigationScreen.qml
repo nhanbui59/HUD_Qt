@@ -114,21 +114,11 @@ Item {
         }
 
         // Destination pin
-        Item {
+        DestinationMarker {
             z: 3
             property var sp: mapTiles.latLngToScreen(root.destLat, root.destLng)
-            readonly property real pinHeight: Theme.destPinSize + Theme.destStemHeight - 4
-            x: sp.x - Theme.destPinSize / 2
-            y: sp.y - pinHeight
-            Rectangle {
-                width: Theme.destPinSize; height: Theme.destPinSize; radius: width / 2; color: Theme.blue600; border.color: Theme.blue400; border.width: 2
-                anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
-                Rectangle { width: Theme.destInnerDotSize; height: Theme.destInnerDotSize; radius: width / 2; color: Theme.white; anchors.centerIn: parent }
-            }
-            Rectangle {
-                width: Theme.destStemWidth; height: Theme.destStemHeight; color: Qt.rgba(37/255, 99/255, 235/255, 0.8)
-                anchors { top: parent.top; topMargin: Theme.destPinSize - 4; horizontalCenter: parent.horizontalCenter }
-            }
+            x: sp.x - width / 2
+            y: sp.y - height
         }
 
         // Street labels
