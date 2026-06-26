@@ -4,19 +4,32 @@ import "../config"
 Item {
     id: root
     implicitWidth: 120; implicitHeight: 80
+    readonly property real markerCenterX: width / 2
+    readonly property real markerCenterY: height / 2
+    readonly property real arrowVerticalOffset: -4
+    readonly property real pulseCenterY: markerCenterY + 14
 
     Canvas { id: ringsCanvas; anchors.fill: parent
         onPaint: {
             var ctx=getContext("2d"); ctx.clearRect(0,0,width,height)
-            var cx=width/2; var cy=height/2
-            ctx.beginPath(); ctx.fillStyle="rgba(0,240,255,0.10)"; ctx.ellipse(cx,cy,52,28); ctx.fill()
-            ctx.beginPath(); ctx.strokeStyle="rgba(0,240,255,0.38)"; ctx.lineWidth=1
-            ctx.ellipse(cx,cy,50,26); ctx.stroke()
+            var cx=root.markerCenterX; var cy=root.pulseCenterY
+            var pulsePhase=(Date.now()%1500)/1500
+            var pulseScale=0.82+pulsePhase*0.38
+            var pulseAlpha=(1-pulsePhase)*0.58
+
+            ctx.beginPath(); ctx.fillStyle="rgba(0,240,255,0.10)"
+            ctx.ellipse(cx,cy,42,20,0,0,Math.PI*2); ctx.fill()
+
+            ctx.beginPath(); ctx.strokeStyle="rgba(0,240,255,0.48)"; ctx.lineWidth=1.5
+            ctx.ellipse(cx,cy,40,18,0,0,Math.PI*2); ctx.stroke()
+
+            ctx.beginPath(); ctx.strokeStyle="rgba(0,240,255,"+pulseAlpha.toFixed(2)+")"; ctx.lineWidth=1.4
+            ctx.ellipse(cx,cy,44*pulseScale,21*pulseScale,0,0,Math.PI*2); ctx.stroke()
         }
-        Component.onCompleted: requestPaint()
+        Timer { interval:30; running:true; repeat:true; onTriggered: ringsCanvas.requestPaint() }
     }
 
-    Canvas { id:arrowCanvas; anchors.centerIn:parent; width:46; height:58; anchors.verticalCenterOffset:-4
+    Canvas { id:arrowCanvas; anchors.centerIn:parent; width:46; height:58; anchors.verticalCenterOffset: root.arrowVerticalOffset
         onPaint: {
             var ctx=getContext("2d"); ctx.clearRect(0,0,width,height)
             // depth shadow
