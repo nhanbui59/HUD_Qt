@@ -35,8 +35,18 @@ Item {
     }
 
     function tileUrl(z, x, y) {
-        if (Theme.useOfflineMapTiles) {
+        var isOfflineTile = Theme.useOfflineMapTiles &&
+            z === Theme.offlineMapTileZoom &&
+            x >= Theme.offlineMapTileMinX &&
+            x <= Theme.offlineMapTileMaxX &&
+            y >= Theme.offlineMapTileMinY &&
+            y <= Theme.offlineMapTileMaxY
+
+        if (isOfflineTile) {
             return "qrc:/map_tiles/dark_all/" + z + "/" + x + "/" + y + ".png"
+        }
+        if (!Theme.allowOnlineMapTileFallback) {
+            return ""
         }
         return tileBaseUrl + z + "/" + x + "/" + y + ".png"
     }
@@ -72,7 +82,8 @@ Item {
                         var sx = originX + dx * root.ppt
                         var sy = originY + dy * root.ppt
                         if (sx + root.ppt < 0 || sx > width || sy + root.ppt < 0 || sy > height) continue
-                        ctx.drawImage(root.tileUrl(z, tx, ty), sx, sy, root.ppt, root.ppt)
+                        var url = root.tileUrl(z, tx, ty)
+                        if (url !== "") ctx.drawImage(url, sx, sy, root.ppt, root.ppt)
                     }
                 }
                 return

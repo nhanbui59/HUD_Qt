@@ -15,13 +15,13 @@ Item {
             ctx.clearRect(0, 0, width, height)
 
             var cx = width / 2
-            var groundY = height * 0.70
-            var topY = height * 0.12
-            var tailY = height * 0.66
-            var leftX = cx - width * 0.24
-            var rightX = cx + width * 0.24
-            var notchY = height * 0.50
-            var depth = height * 0.10
+            var groundY = height * 0.68
+            var topY = height * 0.18
+            var tailY = height * 0.61
+            var leftX = cx - width * 0.20
+            var rightX = cx + width * 0.20
+            var notchY = height * 0.48
+            var depth = height * 0.075
             var pulsePhase = (Date.now() % 1500) / 1500
             var pulseScale = 0.82 + pulsePhase * 0.42
             var pulseAlpha = (1 - pulsePhase) * 0.55
@@ -30,38 +30,38 @@ Item {
             ctx.translate(cx, groundY)
             ctx.scale(1, 0.36)
 
-            var groundGlow = ctx.createRadialGradient(0, 0, 4, 0, 0, width * 0.34)
+            var groundGlow = ctx.createRadialGradient(0, 0, 3, 0, 0, width * 0.28)
             groundGlow.addColorStop(0, "rgba(0,240,255,0.20)")
             groundGlow.addColorStop(0.58, "rgba(0,240,255,0.08)")
             groundGlow.addColorStop(1, "rgba(0,240,255,0.00)")
             ctx.beginPath()
             ctx.fillStyle = groundGlow
-            ctx.arc(0, 0, width * 0.34, 0, Math.PI * 2)
+            ctx.arc(0, 0, width * 0.28, 0, Math.PI * 2)
             ctx.fill()
 
             ctx.beginPath()
             ctx.strokeStyle = "rgba(0,240,255,0.62)"
             ctx.lineWidth = 2.0
-            ctx.arc(0, 0, width * 0.25, 0, Math.PI * 2)
+            ctx.arc(0, 0, width * 0.21, 0, Math.PI * 2)
             ctx.stroke()
 
             ctx.beginPath()
             ctx.strokeStyle = "rgba(0,240,255," + pulseAlpha.toFixed(2) + ")"
             ctx.lineWidth = 1.7
-            ctx.arc(0, 0, width * 0.30 * pulseScale, 0, Math.PI * 2)
+            ctx.arc(0, 0, width * 0.25 * pulseScale, 0, Math.PI * 2)
             ctx.stroke()
             ctx.restore()
 
             ctx.beginPath()
             ctx.fillStyle = "rgba(0,0,0,0.38)"
-            ctx.ellipse(cx, groundY + 2, width * 0.20, height * 0.055, 0, 0, Math.PI * 2)
+            ctx.ellipse(cx, groundY + 2, width * 0.17, height * 0.045, 0, 0, Math.PI * 2)
             ctx.fill()
 
             ctx.beginPath()
             ctx.moveTo(cx, topY + depth)
-            ctx.lineTo(rightX + 3, tailY + depth)
+            ctx.lineTo(rightX + 2, tailY + depth)
             ctx.lineTo(cx, notchY + depth)
-            ctx.lineTo(leftX - 3, tailY + depth)
+            ctx.lineTo(leftX - 2, tailY + depth)
             ctx.closePath()
             ctx.fillStyle = "rgba(0,24,34,0.70)"
             ctx.fill()
@@ -101,9 +101,9 @@ Item {
 
             ctx.beginPath()
             ctx.moveTo(cx, topY + 4)
-            ctx.lineTo(cx + width * 0.08, tailY - 9)
+            ctx.lineTo(cx + width * 0.065, tailY - 8)
             ctx.lineTo(cx, notchY - 3)
-            ctx.lineTo(cx - width * 0.06, tailY - 9)
+            ctx.lineTo(cx - width * 0.05, tailY - 8)
             ctx.closePath()
             var highlight = ctx.createLinearGradient(cx, topY, cx, tailY)
             highlight.addColorStop(0, "rgba(255,255,255,0.58)")

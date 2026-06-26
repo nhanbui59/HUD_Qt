@@ -104,6 +104,12 @@ QtObject {
     readonly property real headingSmoothing: 0.05
     readonly property bool useRasterMapTiles: true
     readonly property bool useOfflineMapTiles: true
+    readonly property bool allowOnlineMapTileFallback: true
+    readonly property int offlineMapTileZoom: 17
+    readonly property int offlineMapTileMinX: 104382
+    readonly property int offlineMapTileMaxX: 104388
+    readonly property int offlineMapTileMinY: 61586
+    readonly property int offlineMapTileMaxY: 61592
     readonly property int mapTileGridSize: 7
     readonly property int mapTileRepaintInterval: 400
     readonly property int routeRepaintInterval: 100
