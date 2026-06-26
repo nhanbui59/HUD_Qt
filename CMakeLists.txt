@@ -11,7 +11,6 @@ find_package(Qt6 REQUIRED COMPONENTS
     Gui
     Quick
     QuickControls2
-    Core5Compat
 )
 
 qt_add_executable(QHUD
@@ -49,7 +48,6 @@ target_link_libraries(QHUD PRIVATE
     Qt6::Gui
     Qt6::Quick
     Qt6::QuickControls2
-    Qt6::Core5Compat
 )
 
 set_target_properties(QHUD PROPERTIES

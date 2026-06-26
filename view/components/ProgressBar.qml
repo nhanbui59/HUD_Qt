@@ -1,5 +1,4 @@
 import QtQuick
-import Qt5Compat.GraphicalEffects
 import "../config"
 import "../style"
 
@@ -64,12 +63,7 @@ Item {
         opacity: glowEnabled ? 0.6 : 0
         visible: glowEnabled
 
-        layer.enabled: glowEnabled
-        layer.effect: FastBlur {
-            radius: 10
-            transparentBorder: true
-            source: fill
-        }
+        layer.enabled: false
     }
 
     // Left timestamp

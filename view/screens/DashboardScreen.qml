@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Shapes
-import Qt5Compat.GraphicalEffects
 import "../config"
 import "../style"
 import "../components"
@@ -41,11 +40,7 @@ Item {
         color: Qt.rgba(30/255, 58/255, 138/255, 0.1)          // blue-900/10
         z: 0
 
-        layer.enabled: true
-        layer.effect: FastBlur {
-            radius: 120
-            transparentBorder: true
-        }
+        layer.enabled: false
     }
 
     // ─── Main layout (3 columns on desktop, stacked on mobile) ──
@@ -141,11 +136,7 @@ Item {
                     border.color: Qt.rgba(59/255, 130/255, 246/255, 0.3)
                     border.width: 1
 
-                    layer.enabled: true
-                    layer.effect: FastBlur {
-                        radius: 6
-                        transparentBorder: true
-                    }
+                    layer.enabled: false
 
                     Row {
                         anchors.centerIn: parent

@@ -11,7 +11,21 @@
 
 int main(int argc, char *argv[])
 {
-    // Qt 6.5+ defaults — high-DPI scaling
+#if defined(Q_OS_LINUX)
+    if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM")
+            && qEnvironmentVariableIsEmpty("DISPLAY")
+            && qEnvironmentVariableIsEmpty("WAYLAND_DISPLAY")) {
+        qputenv("QT_QPA_PLATFORM", QByteArrayLiteral("eglfs"));
+    }
+    if (qEnvironmentVariableIsEmpty("QT_QUICK_BACKEND")) {
+        qputenv("QT_QUICK_BACKEND", QByteArrayLiteral("opengl"));
+    }
+    if (qEnvironmentVariableIsEmpty("QSG_RENDER_LOOP")) {
+        qputenv("QSG_RENDER_LOOP", QByteArrayLiteral("basic"));
+    }
+#endif
+
+    // Qt 6.5+ defaults - high-DPI scaling
     QGuiApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("QHUD"));
     app.setApplicationVersion(QStringLiteral("1.0.0"));

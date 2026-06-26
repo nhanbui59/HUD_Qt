@@ -8,7 +8,9 @@
 
 ## Important Runtime Note
 
-The executable alone is not enough unless the board image already contains the exact Qt 6 runtime, QML modules, and platform plugins compiled for the same ARM64 target.
+The app is designed to be started directly as `QHUD`. On Linux embedded, it auto-selects `eglfs` when no `DISPLAY` or `WAYLAND_DISPLAY` session is present.
+
+The executable alone is enough only when the board image already contains the exact Qt 6 runtime, QML modules, platform plugins, and Mali userspace drivers compiled for the same ARM64 target.
 
 Deploy one of these:
 
@@ -19,23 +21,17 @@ Deploy one of these:
 
 The board needs at least:
 
-- Qt libraries: Core, Gui, Quick, QuickControls2, Qml, Network, Core5Compat
-- QML modules: QtQuick, QtQuick.Controls, Qt5Compat.GraphicalEffects
+- Qt libraries: Core, Gui, Quick, QuickControls2, Qml, Network
+- QML modules: QtQuick, QtQuick.Controls
 - Platform plugin: `eglfs` or a working Wayland plugin
 - Mali-G31 EGL/OpenGL ES userspace drivers
 
 ## Run
 
-Install the app under a folder that contains `bin/QHUD`, then run:
+Run the binary directly:
 
 ```sh
-./scripts/run_rzv2l.sh
-```
-
-Equivalent direct command:
-
-```sh
-QT_QPA_PLATFORM=eglfs QT_QUICK_BACKEND=opengl QSG_RENDER_LOOP=basic ./bin/QHUD
+./QHUD
 ```
 
 ## Current Embedded UI Decisions

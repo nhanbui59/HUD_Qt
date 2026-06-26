@@ -29,6 +29,5 @@ Rectangle {
         border.width: glassBorderWidth
     }
 
-    // Backdrop blur via FastBlur + ShaderEffectSource
-    // This approximates CSS backdrop-blur
+    // Embedded profile keeps this panel as a flat translucent surface.
 }

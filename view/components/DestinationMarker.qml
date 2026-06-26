@@ -1,5 +1,4 @@
 import QtQuick
-import Qt5Compat.GraphicalEffects
 import "../config"
 import "../style"
 
@@ -31,11 +30,7 @@ Item {
             color: Qt.rgba(37/255, 99/255, 235/255, 0.8)
             opacity: 0.6
 
-            layer.enabled: true
-            layer.effect: FastBlur {
-                radius: 20
-                transparentBorder: true
-            }
+            layer.enabled: false
         }
     }
 

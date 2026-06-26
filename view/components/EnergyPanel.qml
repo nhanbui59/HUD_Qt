@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import Qt5Compat.GraphicalEffects
 import "../config"
 import "../style"
 
@@ -24,11 +23,7 @@ Item {
         border.color: Theme.glassBorder
         border.width: 1
 
-        layer.enabled: true
-        layer.effect: FastBlur {
-            radius: 6
-            transparentBorder: true
-        }
+        layer.enabled: false
     }
 
     Column {

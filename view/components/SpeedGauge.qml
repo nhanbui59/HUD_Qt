@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import Qt5Compat.GraphicalEffects
 import "../config"
 import "../style"
 
@@ -100,15 +99,7 @@ Item {
             style: Text.Normal
 
             // Blue glow shadow via layer effect
-            layer.enabled: true
-            layer.effect: DropShadow {
-                color: Qt.rgba(59/255, 130/255, 246/255, 0.3)
-                radius: 20
-                samples: 17
-                horizontalOffset: 0
-                verticalOffset: 0
-                spread: 0
-            }
+            layer.enabled: false
         }
 
         // KM/H label
@@ -158,11 +149,7 @@ Item {
                     }
                 }
 
-                layer.enabled: true
-                layer.effect: FastBlur {
-                    radius: 4
-                    transparentBorder: true
-                }
+                layer.enabled: false
             }
 
             // P

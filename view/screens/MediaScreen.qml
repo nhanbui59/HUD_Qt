@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import Qt5Compat.GraphicalEffects
 import "../config"
 import "../style"
 import "../components"
@@ -43,11 +42,7 @@ Item {
         radius: Math.max(width, height) / 2
         color: Qt.rgba(124/255, 58/255, 237/255, 0.2)         // purple-600/20
 
-        layer.enabled: true
-        layer.effect: FastBlur {
-            radius: 120
-            transparentBorder: true
-        }
+        layer.enabled: false
     }
 
     // Blue accent (bottom-right)
@@ -59,11 +54,7 @@ Item {
         radius: Math.max(width, height) / 2
         color: Qt.rgba(37/255, 99/255, 235/255, 0.2)          // blue-600/20
 
-        layer.enabled: true
-        layer.effect: FastBlur {
-            radius: 100
-            transparentBorder: true
-        }
+        layer.enabled: false
     }
 
     // ─── Desktop: 2-column layout ────────────────────────
@@ -131,8 +122,7 @@ Item {
                             color: Qt.rgba(0, 0, 0, 0.5)
                             opacity: 0.6
                             y: 20
-                            layer.enabled: true
-                            layer.effect: FastBlur { radius: 50; transparentBorder: true }
+                            layer.enabled: false
                         }
                     }
 

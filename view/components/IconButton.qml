@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import Qt5Compat.GraphicalEffects
 import "../config"
 import "../style"
 
@@ -40,11 +39,7 @@ Item {
         opacity: isActive && showGlow ? 0.4 : 0
         visible: isActive && showGlow
 
-        layer.enabled: isActive && showGlow
-        layer.effect: FastBlur {
-            radius: 20
-            transparentBorder: true
-        }
+        layer.enabled: false
 
         Behavior on opacity { NumberAnimation { duration: 300 } }
     }

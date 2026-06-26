@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Shapes
-import Qt5Compat.GraphicalEffects
 import "../config"
 import "../style"
 
@@ -26,11 +25,7 @@ Item {
         color: Qt.rgba(0, 0, 0, 0.6)
         z: 0
 
-        layer.enabled: true
-        layer.effect: FastBlur {
-            radius: 8
-            transparentBorder: true
-        }
+        layer.enabled: false
     }
 
     // ─── Car Body (pill shape) ───────────────────────────────
@@ -166,8 +161,7 @@ Item {
                 width: 16; height: 8
                 radius: 4
                 color: Qt.rgba(1, 1, 1, 0.8)
-                layer.enabled: true
-                layer.effect: FastBlur { radius: 4; transparentBorder: true }
+                layer.enabled: false
             }
             // Right glow ellipse
             Rectangle {
@@ -177,8 +171,7 @@ Item {
                 width: 16; height: 8
                 radius: 4
                 color: Qt.rgba(1, 1, 1, 0.8)
-                layer.enabled: true
-                layer.effect: FastBlur { radius: 4; transparentBorder: true }
+                layer.enabled: false
             }
         }
     }
@@ -225,11 +218,7 @@ Item {
                     GradientStop { position: 0.7; color: Qt.rgba(1, 1, 1, 0.4) }
                 }
 
-                layer.enabled: true
-                layer.effect: FastBlur {
-                    radius: 40
-                    transparentBorder: true
-                }
+                layer.enabled: false
             }
             z: -1
         }
@@ -260,11 +249,7 @@ Item {
                     radius: parent.radius
                     color: Qt.rgba(239/255, 68/255, 68/255, 0.5)
                     opacity: 0.5
-                    layer.enabled: true
-                    layer.effect: FastBlur {
-                        radius: 20
-                        transparentBorder: true
-                    }
+                    layer.enabled: false
                 }
             }
 
