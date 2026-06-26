@@ -119,6 +119,11 @@ Item {
             property var sp: mapTiles.latLngToScreen(root.destLat, root.destLng)
             x: sp.x - width / 2
             y: sp.y - height
+            transform: Rotation {
+                origin.x: width / 2
+                origin.y: height
+                angle: root.heading
+            }
         }
 
         // Street labels
