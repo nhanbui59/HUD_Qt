@@ -37,7 +37,7 @@ Run the binary directly:
 ## Current Embedded UI Decisions
 
 - Navigation is 1024x600.
-- Raster map tile downloads are disabled by default.
-- The map background is a local lightweight vector grid.
+- Raster map tile downloads are enabled by default for accurate street detail.
+- The local lightweight vector grid remains only as a fallback when raster tiles are disabled.
 - Route repaint interval is reduced to 100ms.
 - Map repaint timer only runs when raster tiles are explicitly enabled.
