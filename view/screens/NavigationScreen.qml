@@ -9,9 +9,29 @@ Item {
     property real currentLat: 10.7710
     property real heading: 0
     property var routePath: []
-    property real destLng: 106.7048
-    property real destLat: 10.7708
+    readonly property real fallbackDestLng: 106.705199
+    readonly property real fallbackDestLat: 10.771564
+    readonly property var destinationPoint: routeDestination()
+    readonly property real destLng: pointLng(destinationPoint)
+    readonly property real destLat: pointLat(destinationPoint)
     anchors.fill: parent
+
+    function pointLat(point) {
+        if (typeof point === "object" && point !== null && point.lat !== undefined) return point.lat
+        if (point && point[1] !== undefined) return point[1]
+        return fallbackDestLat
+    }
+
+    function pointLng(point) {
+        if (typeof point === "object" && point !== null && point.lng !== undefined) return point.lng
+        if (point && point[0] !== undefined) return point[0]
+        return fallbackDestLng
+    }
+
+    function routeDestination() {
+        if (routePath && routePath.length > 1) return routePath[routePath.length - 1]
+        return { lat: fallbackDestLat, lng: fallbackDestLng }
+    }
 
     Rectangle { anchors.fill: parent; color: "#0a0a0a" }
 
@@ -97,15 +117,17 @@ Item {
         Item {
             z: 3
             property var sp: mapTiles.latLngToScreen(root.destLat, root.destLng)
-            x: sp.x - 16; y: sp.y - 48
+            readonly property real pinHeight: Theme.destPinSize + Theme.destStemHeight - 4
+            x: sp.x - Theme.destPinSize / 2
+            y: sp.y - pinHeight
             Rectangle {
-                width: 32; height: 32; radius: 16; color: Theme.blue600; border.color: Theme.blue400; border.width: 2
+                width: Theme.destPinSize; height: Theme.destPinSize; radius: width / 2; color: Theme.blue600; border.color: Theme.blue400; border.width: 2
                 anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
-                Rectangle { width: 12; height: 12; radius: 6; color: Theme.white; anchors.centerIn: parent }
+                Rectangle { width: Theme.destInnerDotSize; height: Theme.destInnerDotSize; radius: width / 2; color: Theme.white; anchors.centerIn: parent }
             }
             Rectangle {
-                width: 4; height: 24; color: Qt.rgba(37/255, 99/255, 235/255, 0.8)
-                anchors { top: parent.top; topMargin: 28; horizontalCenter: parent.horizontalCenter }
+                width: Theme.destStemWidth; height: Theme.destStemHeight; color: Qt.rgba(37/255, 99/255, 235/255, 0.8)
+                anchors { top: parent.top; topMargin: Theme.destPinSize - 4; horizontalCenter: parent.horizontalCenter }
             }
         }
 
@@ -134,7 +156,7 @@ Item {
     Text {
         z: 15
         anchors { left: parent.left; leftMargin: 40; bottom: parent.bottom; bottomMargin: 180 }
-        text: "DESTINATION: BITEXCO FINANCIAL TOWER\n[10.7708\u00B0 N, 106.7048\u00B0 E]"
+        text: "DESTINATION: BITEXCO FINANCIAL TOWER\n[" + root.destLat.toFixed(6) + "\u00B0 N, " + root.destLng.toFixed(6) + "\u00B0 E]"
         color: Qt.rgba(1, 1, 1, 0.35); font.family: "Courier New"; font.pixelSize: 11
     }
 
