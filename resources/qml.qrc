@@ -1,0 +1,29 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="view/config/Theme.qml">../view/config/Theme.qml</file>
+    <file alias="view/config/qmldir">../view/config/qmldir</file>
+    <file alias="view/style/Fonts.qml">../view/style/Fonts.qml</file>
+    <file alias="view/style/Shadows.qml">../view/style/Shadows.qml</file>
+    <file alias="view/main.qml">../view/main.qml</file>
+    <file alias="view/screens/NavigationScreen.qml">../view/screens/NavigationScreen.qml</file>
+    <file alias="view/screens/DashboardScreen.qml">../view/screens/DashboardScreen.qml</file>
+    <file alias="view/screens/MediaScreen.qml">../view/screens/MediaScreen.qml</file>
+    <file alias="view/overlays/HeaderPanel.qml">../view/overlays/HeaderPanel.qml</file>
+    <file alias="view/overlays/BottomPanel.qml">../view/overlays/BottomPanel.qml</file>
+    <file alias="view/overlays/SidePanel.qml">../view/overlays/SidePanel.qml</file>
+    <file alias="view/overlays/CenterPanel.qml">../view/overlays/CenterPanel.qml</file>
+    <file alias="view/components/Dock.qml">../view/components/Dock.qml</file>
+    <file alias="view/components/SpeedGauge.qml">../view/components/SpeedGauge.qml</file>
+    <file alias="view/components/TurnIcon.qml">../view/components/TurnIcon.qml</file>
+    <file alias="view/components/MapTileLayer.qml">../view/components/MapTileLayer.qml</file>
+    <file alias="view/components/CarMarker.qml">../view/components/CarMarker.qml</file>
+    <file alias="view/components/DestinationMarker.qml">../view/components/DestinationMarker.qml</file>
+    <file alias="view/components/ProgressBar.qml">../view/components/ProgressBar.qml</file>
+    <file alias="view/components/GlassPanel.qml">../view/components/GlassPanel.qml</file>
+    <file alias="view/components/IconButton.qml">../view/components/IconButton.qml</file>
+    <file alias="view/components/TirePressureCard.qml">../view/components/TirePressureCard.qml</file>
+    <file alias="view/components/EnergyPanel.qml">../view/components/EnergyPanel.qml</file>
+    <file alias="view/components/MediaControls.qml">../view/components/MediaControls.qml</file>
+    <file alias="view/components/CarAvatar.qml">../view/components/CarAvatar.qml</file>
+  </qresource>
+</RCC>
