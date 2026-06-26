@@ -63,8 +63,10 @@ QtObject {
     readonly property color routeCore: "#22c55e"
 
     // ─── Screen dimensions ──────────────────────────────────────────
-    readonly property int screenWidth: 1920
-    readonly property int screenHeight: 1080
+    readonly property int screenWidth: 1024
+    readonly property int screenHeight: 600
+    readonly property int minimumScreenWidth: 800
+    readonly property int minimumScreenHeight: 480
     readonly property int dockButtonSize: 64
     readonly property int dockButtonSizeMobile: 56
     readonly property int dockIconSize: 28
@@ -100,6 +102,9 @@ QtObject {
     readonly property real mapDefaultZoom: 17.5
     readonly property real mapTilt: 60.0
     readonly property real headingSmoothing: 0.05
+    readonly property int mapTileGridSize: 7
+    readonly property int mapTileRepaintInterval: 400
+    readonly property int routeRepaintInterval: 100
 
     // ─── Car marker ──────────────────────────────────────────────────
     readonly property int carMarkerWidth: 40

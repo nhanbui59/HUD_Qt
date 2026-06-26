@@ -8,10 +8,10 @@ import "components"
 Window {
     id: rootWindow
     visible: true
-    width: 1280
-    height: 720
-    minimumWidth: 480
-    minimumHeight: 320
+    width: Theme.screenWidth
+    height: Theme.screenHeight
+    minimumWidth: Theme.minimumScreenWidth
+    minimumHeight: Theme.minimumScreenHeight
     color: Theme.bgPrimary
     title: "QHUD — Car Dashboard"
     property string currentScreen: "navigation"

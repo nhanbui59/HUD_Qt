@@ -6,6 +6,12 @@
 namespace QHUD {
 namespace AppConfig {
 
+// ── Embedded Display ────────────────────────────────────────────────
+constexpr int DISPLAY_WIDTH       = 1024;
+constexpr int DISPLAY_HEIGHT      = 600;
+constexpr int MIN_DISPLAY_WIDTH   = 800;
+constexpr int MIN_DISPLAY_HEIGHT  = 480;
+
 // ── Route Coordinates (29-point HCMC route) ────────────────────────
 // Ported from TelemetryService.ts ROUTE_COORDINATES
 extern const std::vector<std::pair<double, double>> ROUTE_COORDINATES;

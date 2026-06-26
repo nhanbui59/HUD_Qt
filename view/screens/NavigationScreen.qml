@@ -90,7 +90,7 @@ Item {
                 ctx.restore()
             }
             // Redraw on each frame
-            Timer { interval: 50; running: true; repeat: true; onTriggered: routeCanvas.requestPaint() }
+            Timer { interval: Theme.routeRepaintInterval; running: true; repeat: true; onTriggered: routeCanvas.requestPaint() }
         }
 
         // Destination pin

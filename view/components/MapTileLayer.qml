@@ -1,4 +1,5 @@
 import QtQuick
+import "../config"
 
 Item {
     id: root
@@ -6,7 +7,7 @@ Item {
     property real centerLng: 106.7048
     property real zoomLevel: 17.5
     property url tileBaseUrl: "https://basemaps.cartocdn.com/dark_all/"
-    property int gridSize: 9
+    property int gridSize: Theme.mapTileGridSize
     property int tileSize: 256
 
     readonly property int tileZoom: Math.floor(zoomLevel)
@@ -64,6 +65,6 @@ Item {
                 }
             }
         }
-        Timer { interval: 200; running: true; repeat: true; onTriggered: canvas.requestPaint() }
+        Timer { interval: Theme.mapTileRepaintInterval; running: true; repeat: true; onTriggered: canvas.requestPaint() }
     }
 }

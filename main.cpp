@@ -5,6 +5,7 @@
 #include "viewmodel/TelemetryViewModel.h"
 #include "viewmodel/ScreenViewModel.h"
 #include "viewmodel/MediaViewModel.h"
+#include "config/AppConfig.h"
 #include "config/MapConfig.h"
 
 int main(int argc, char *argv[])
@@ -47,8 +48,8 @@ int main(int argc, char *argv[])
         QStringLiteral("BUILD_INFO"), QVariantMap{
             {QStringLiteral("appName"), QStringLiteral("QHUD")},
             {QStringLiteral("qtVersion"), QString::fromLatin1(qVersion())},
-            {QStringLiteral("screenWidth"), 1920},
-            {QStringLiteral("screenHeight"), 1080}
+            {QStringLiteral("screenWidth"), QHUD::AppConfig::DISPLAY_WIDTH},
+            {QStringLiteral("screenHeight"), QHUD::AppConfig::DISPLAY_HEIGHT}
         });
 
     // ── Load main QML ────────────────────────────────────────
