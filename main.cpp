@@ -20,6 +20,9 @@ int main(int argc, char *argv[])
     if (qEnvironmentVariableIsEmpty("QT_QUICK_BACKEND")) {
         qputenv("QT_QUICK_BACKEND", QByteArrayLiteral("opengl"));
     }
+    if (qEnvironmentVariableIsEmpty("QSG_RHI_BACKEND")) {
+        qputenv("QSG_RHI_BACKEND", QByteArrayLiteral("opengl"));
+    }
     if (qEnvironmentVariableIsEmpty("QSG_RENDER_LOOP")) {
         qputenv("QSG_RENDER_LOOP", QByteArrayLiteral("basic"));
     }
