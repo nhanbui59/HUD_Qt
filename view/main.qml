@@ -14,7 +14,7 @@ Window {
     minimumHeight: Theme.minimumScreenHeight
     color: Theme.bgPrimary
     title: "QHUD — Car Dashboard"
-    property string currentScreen: "navigation"
+    property string currentScreen: typeof screenVM !== "undefined" ? screenVM.currentScreen : "dashboard"
 
     NavigationScreen {
         anchors.fill: parent

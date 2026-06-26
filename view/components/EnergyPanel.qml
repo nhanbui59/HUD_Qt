@@ -18,12 +18,10 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        radius: 24
-        color: Theme.glassBgWhite5
-        border.color: Theme.glassBorder
+        radius: 16
+        color: Qt.rgba(1, 1, 1, 0.035)
+        border.color: Qt.rgba(1, 1, 1, 0.08)
         border.width: 1
-
-        layer.enabled: false
     }
 
     Column {

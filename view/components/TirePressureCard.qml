@@ -18,10 +18,19 @@ Item {
     property int nominalPressure: Theme.tirePressureNominal
 
     implicitWidth: 320
-    implicitHeight: 160
+    implicitHeight: 180
+
+    Rectangle {
+        anchors.fill: parent
+        radius: 16
+        color: Qt.rgba(1, 1, 1, 0.035)
+        border.color: Qt.rgba(1, 1, 1, 0.08)
+        border.width: 1
+    }
 
     Column {
         anchors.fill: parent
+        anchors.margins: 20
         spacing: 16
 
         // Header
@@ -72,9 +81,9 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            radius: 12
-            color: isLow ? Qt.rgba(239/255, 68/255, 68/255, 0.1) : Theme.glassBgWhite5
-            border.color: isLow ? Qt.rgba(239/255, 68/255, 68/255, 0.3) : "transparent"
+            radius: 8
+            color: isLow ? Qt.rgba(239/255, 68/255, 68/255, 0.15) : "transparent"
+            border.color: isLow ? Qt.rgba(239/255, 68/255, 68/255, 0.4) : "transparent"
             border.width: 1
         }
 

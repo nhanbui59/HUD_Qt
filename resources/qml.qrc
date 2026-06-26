@@ -25,6 +25,7 @@
     <file alias="view/components/EnergyPanel.qml">../view/components/EnergyPanel.qml</file>
     <file alias="view/components/MediaControls.qml">../view/components/MediaControls.qml</file>
     <file alias="view/components/CarAvatar.qml">../view/components/CarAvatar.qml</file>
+    <file alias="resources/images/car_rear.png">../resources/images/car_rear.png</file>
     <file alias="map_tiles/dark_all/17/104382/61586.png">../resources/map_tiles/dark_all/17/104382/61586.png</file>
     <file alias="map_tiles/dark_all/17/104382/61587.png">../resources/map_tiles/dark_all/17/104382/61587.png</file>
     <file alias="map_tiles/dark_all/17/104382/61588.png">../resources/map_tiles/dark_all/17/104382/61588.png</file>

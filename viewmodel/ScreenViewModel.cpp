@@ -4,7 +4,7 @@ namespace QHUD {
 
 ScreenViewModel::ScreenViewModel(QObject* parent)
     : QObject(parent)
-    , m_currentScreen(QStringLiteral("navigation"))
+    , m_currentScreen(QStringLiteral("dashboard"))
 {
 }
 

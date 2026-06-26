@@ -63,10 +63,10 @@ QtObject {
     readonly property color routeCore: "#22c55e"
 
     // ─── Screen dimensions ──────────────────────────────────────────
-    readonly property int screenWidth: 1024
-    readonly property int screenHeight: 600
-    readonly property int minimumScreenWidth: 800
-    readonly property int minimumScreenHeight: 480
+    readonly property int screenWidth: 1280
+    readonly property int screenHeight: 720
+    readonly property int minimumScreenWidth: 1280
+    readonly property int minimumScreenHeight: 720
     readonly property int dockButtonSize: 64
     readonly property int dockButtonSizeMobile: 56
     readonly property int dockIconSize: 28

@@ -3,8 +3,8 @@ import QtQuick.Controls
 import "../config"
 import "../style"
 
-// ─── SpeedGauge — circular gauge with speed number, gear, speed limit ─
-// Matches EXACTLY: DashboardScreen.tsx left column gauge
+// ─── SpeedGauge — Ultra-Luxury Frameless Supercar Arc HUD ────────────
+// Pristine minimalist open digital cockpit: zero boxy cards, 240° glowing arc
 
 Item {
     id: root
@@ -14,232 +14,196 @@ Item {
     property real speedLimit: 60
     property real maxSpeed: Theme.gaugeMaxSpeed
 
-    implicitWidth: 400
-    implicitHeight: 400
+    implicitWidth: 310
+    implicitHeight: 310
 
-    // Derived
-    readonly property real speedPercent: Math.min(speed / maxSpeed, 1.0)
-    readonly property real circumference: 2 * Math.PI * Theme.gaugeRadius
-    readonly property real totalDash: circumference * 0.75   // 270°
-    readonly property real offset: circumference - (speedPercent * totalDash)
+    readonly property real speedRatio: Math.min(speed / maxSpeed, 1.0)
 
-    // ─── Gauge Canvas ───────────────────────────────────────
+    // ─── 1. Frameless 240° Arc Gauge & Ticks (Canvas) ──────────────
     Canvas {
-        id: gaugeCanvas
+        id: arcCanvas
         anchors.fill: parent
-
-        // Rotate so 0 speed is at bottom-left (225°), max at bottom-right (315°)
-        rotation: -225
+        antialiasing: true
+        smooth: true
 
         onPaint: {
             const ctx = getContext("2d")
-            const cx = width / 2
-            const cy = height / 2
-            const r = Theme.gaugeRadius
+            const w = width
+            const h = height
+            const cx = w / 2
+            const cy = h * 0.48
+            const r = Math.min(w, h) * 0.38
 
-            ctx.clearRect(0, 0, width, height)
+            ctx.clearRect(0, 0, w, h)
 
-            // ── Background track (white/5, 12px stroke) ──
+            const startDeg = 150
+            const sweepDeg = 240
+            const startRad = startDeg * (Math.PI / 180)
+            const endRad = (startDeg + sweepDeg) * (Math.PI / 180)
+            const activeEndRad = (startDeg + root.speedRatio * sweepDeg) * (Math.PI / 180)
+
+            // Frosted Dark Instrument Cluster Dial Plate
+            ctx.save()
             ctx.beginPath()
-            ctx.arc(cx, cy, r, 0, Math.PI * 1.5)
-            ctx.strokeStyle = "rgba(255,255,255,0.05)"
-            ctx.lineWidth = Theme.gaugeTrackWidth
+            ctx.arc(cx, cy, r + 38, 0, 2 * Math.PI, false)
+            ctx.fillStyle = "rgba(18, 21, 28, 0.45)"
+            ctx.fill()
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.05)"
+            ctx.lineWidth = 1.5
+            ctx.stroke()
+            ctx.restore()
+
+            // Background Outer Ambient Track
+            ctx.save()
+            ctx.beginPath()
+            ctx.arc(cx, cy, r, startRad, endRad, false)
+            ctx.strokeStyle = "rgba(0, 229, 255, 0.06)"
+            ctx.lineWidth = 24
             ctx.lineCap = "round"
             ctx.stroke()
+            ctx.restore()
 
-            // ── Active arc (blue gradient, 16px stroke) ──
-            const arcLength = speedPercent * Math.PI * 1.5
-            if (arcLength > 0.001) {
+            // Background Core Line Track
+            ctx.save()
+            ctx.beginPath()
+            ctx.arc(cx, cy, r, startRad, endRad, false)
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.1)"
+            ctx.lineWidth = 12
+            ctx.lineCap = "round"
+            ctx.stroke()
+            ctx.restore()
+
+            // Active Sweeping Cyan Arc
+            if (root.speedRatio > 0.002) {
+                ctx.save()
                 ctx.beginPath()
-                ctx.arc(cx, cy, r, 0, arcLength)
-                // Linear gradient for stroke
-                const grad = ctx.createLinearGradient(cx - r, cy - r, cx + r, cy + r)
-                grad.addColorStop(0, Theme.blue500)
-                grad.addColorStop(1, Theme.cyan500)
+                ctx.arc(cx, cy, r, startRad, activeEndRad, false)
+                
+                const grad = ctx.createLinearGradient(cx - r, cy, cx + r, cy)
+                grad.addColorStop(0.0, Theme.blue500)
+                grad.addColorStop(0.6, Theme.cyan400)
+                grad.addColorStop(1.0, "#ffffff")
+
                 ctx.strokeStyle = grad
-                ctx.lineWidth = Theme.gaugeActiveWidth
+                ctx.lineWidth = 12
                 ctx.lineCap = "round"
                 ctx.stroke()
+                ctx.restore()
             }
 
-            // ── Tick marks (9 ticks, every 33.75°) ──
-            for (let i = 0; i < Theme.gaugeTickCount; i++) {
-                const angle = (i * Theme.gaugeTickInterval) * (Math.PI / 180)
-                const tx = cx + (r - 20) * Math.cos(angle)
-                const ty = cy + (r - 20) * Math.sin(angle)
+            // Outer Tick Marks & Numbers (0, 50, 100, 150, 200)
+            const totalTicks = 20
+            const outerR = r + 16
+            for (let i = 0; i <= totalTicks; i++) {
+                const tickRatio = i / totalTicks
+                const currentVal = Math.round(tickRatio * root.maxSpeed)
+                const angleDeg = startDeg + tickRatio * sweepDeg
+                const angleRad = angleDeg * (Math.PI / 180)
+
+                const isMajor = (currentVal % 50 === 0)
+                const tickLen = isMajor ? 14 : 7
+                const innerR = outerR - tickLen
+
+                const x1 = cx + outerR * Math.cos(angleRad)
+                const y1 = cy + outerR * Math.sin(angleRad)
+                const x2 = cx + innerR * Math.cos(angleRad)
+                const y2 = cy + innerR * Math.sin(angleRad)
+
+                ctx.save()
                 ctx.beginPath()
-                ctx.arc(tx, ty, 3, 0, Math.PI * 2)
-                ctx.fillStyle = "rgba(255,255,255,0.3)"
-                ctx.fill()
+                ctx.moveTo(x1, y1)
+                ctx.lineTo(x2, y2)
+                ctx.lineWidth = isMajor ? 2.5 : 1.2
+                ctx.lineCap = "round"
+                ctx.strokeStyle = tickRatio <= root.speedRatio ? Theme.cyan400 : "rgba(255, 255, 255, 0.25)"
+                ctx.stroke()
+                ctx.restore()
+
+                // Draw speed label on major ticks
+                if (isMajor) {
+                    const labelR = outerR + 16
+                    const lx = cx + labelR * Math.cos(angleRad)
+                    const ly = cy + labelR * Math.sin(angleRad)
+                    ctx.save()
+                    ctx.fillStyle = tickRatio <= root.speedRatio ? Theme.white : Theme.gray500
+                    ctx.font = "bold 11px Arial, sans-serif"
+                    ctx.textAlign = "center"
+                    ctx.textBaseline = "middle"
+                    ctx.fillText(currentVal.toString(), lx, ly)
+                    ctx.restore()
+                }
             }
         }
 
-        // Repaint when speed changes
         Connections {
             target: root
-            function onSpeedChanged() { gaugeCanvas.requestPaint() }
-            function onSpeedLimitChanged() { gaugeCanvas.requestPaint() }
+            function onSpeedChanged() { arcCanvas.requestPaint() }
         }
     }
 
-    // ─── Center Content ──────────────────────────────────────
+    // ─── 2. Center Minimalist Readout ──────────────────────────────
     Column {
         anchors.centerIn: parent
-        spacing: 0
-        z: 2
+        anchors.verticalCenterOffset: -8
+        spacing: -4
 
-        // Speed number (7xl, tabular-nums, blue glow)
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: Math.round(root.speed)
             color: Theme.white
             font.family: Theme.fontFamilyMono
-            font.pixelSize: Theme.fontSize7xl
-            font.weight: Font.Black
-            style: Text.Normal
-
-            // Blue glow shadow via layer effect
-            layer.enabled: false
+            font.pixelSize: 84
+            font.weight: Font.Light
+            font.letterSpacing: -3
         }
 
-        // KM/H label
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: "KM/H"
-            color: Theme.gray400
+            color: Theme.cyan400
             font.family: Theme.fontFamily
-            font.pixelSize: Theme.fontSize2xs
+            font.pixelSize: Theme.fontSizeXs
             font.weight: Font.Bold
-            font.capitalization: Font.AllUppercase
+            font.letterSpacing: 3
         }
+    }
 
-        // Spacer
-        Item { height: 32; width: 1 }
+    // ─── 3. Clean Frameless Bottom Gear Row (`P R N D`) ────────────
+    Row {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 18
+        spacing: 20
 
-        // Gear indicator row
+        Text { text: "P"; color: Theme.gray600; font.family: Theme.fontFamily; font.pixelSize: Theme.fontSizeBase; font.weight: Font.Bold }
+        Text { text: "R"; color: Theme.gray600; font.family: Theme.fontFamily; font.pixelSize: Theme.fontSizeBase; font.weight: Font.Bold }
+        Text { text: "N"; color: Theme.gray600; font.family: Theme.fontFamily; font.pixelSize: Theme.fontSizeBase; font.weight: Font.Bold }
+
+        // Active D
         Row {
-            anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 8
-
-            // D4 active
-            Rectangle {
-                width: 42; height: 32
-                radius: 8
-                color: Theme.glassBgWhite10
-                border.color: "transparent"
-
-                Row {
-                    anchors.centerIn: parent
-                    spacing: 1
-                    Text {
-                        text: "D"
-                        color: Theme.white
-                        font.family: Theme.fontFamily
-                        font.pixelSize: Theme.fontSizeSm
-                        font.weight: Font.Bold
-                        font.capitalization: Font.AllUppercase
-                    }
-                    Text {
-                        text: "4"
-                        color: Theme.blue400
-                        font.family: Theme.fontFamily
-                        font.pixelSize: Theme.fontSize2xs
-                        font.weight: Font.Normal
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-
-                layer.enabled: false
-            }
-
-            // P
-            Rectangle {
-                width: 42; height: 32
-                radius: 8
-                color: "transparent"
-                Text {
-                    anchors.centerIn: parent
-                    text: "P"
-                    color: Theme.gray500
-                    font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontSizeSm
-                    font.weight: Font.Bold
-                    font.capitalization: Font.AllUppercase
-                }
-            }
-
-            // R
-            Rectangle {
-                width: 42; height: 32
-                radius: 8
-                color: "transparent"
-                Text {
-                    anchors.centerIn: parent
-                    text: "R"
-                    color: Theme.gray500
-                    font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontSizeSm
-                    font.weight: Font.Bold
-                    font.capitalization: Font.AllUppercase
-                }
-            }
-
-            // N
-            Rectangle {
-                width: 42; height: 32
-                radius: 8
-                color: "transparent"
-                Text {
-                    anchors.centerIn: parent
-                    text: "N"
-                    color: Theme.gray500
-                    font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontSizeSm
-                    font.weight: Font.Bold
-                    font.capitalization: Font.AllUppercase
-                }
-            }
+            spacing: 2
+            Text { text: "D"; color: Theme.cyan400; font.family: Theme.fontFamily; font.pixelSize: Theme.fontSizeLg; font.weight: Font.Black }
+            Text { text: "4"; color: Theme.cyan400; font.family: Theme.fontFamily; font.pixelSize: Theme.fontSize2xs; font.weight: Font.Bold; anchors.verticalCenter: parent.verticalCenter }
         }
+    }
 
-        // Spacer
-        Item { height: 24; width: 1 }
+    // ─── 4. Speed Limit Badge (Top Right Corner) ───────────────────
+    Rectangle {
+        anchors.right: parent.right
+        anchors.rightMargin: 12
+        anchors.top: parent.top
+        anchors.topMargin: 12
+        width: 38; height: 38; radius: 19
+        color: "transparent"
+        border.color: Theme.red600; border.width: 3
 
-        // Speed limit badge (white circle, red border, pulse if speeding)
-        Rectangle {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 48; height: 48
-            radius: 24
+        Text {
+            anchors.centerIn: parent
+            text: root.speedLimit
             color: Theme.white
-            border.color: Theme.red600
-            border.width: 4
-
-            Text {
-                anchors.centerIn: parent
-                text: root.speedLimit
-                color: Theme.bgPrimary
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontSizeLg
-                font.weight: Font.Black
-            }
-
-            // Pulse red when speeding
-            SequentialAnimation on border.color {
-                id: speedPulse
-                running: root.speed > root.speedLimit
-                loops: Animation.Infinite
-                ColorAnimation {
-                    from: Theme.red600
-                    to: Qt.rgba(220/255, 38/255, 38/255, 0.4)
-                    duration: 500
-                    easing.type: Easing.InOutSine
-                }
-                ColorAnimation {
-                    from: Qt.rgba(220/255, 38/255, 38/255, 0.4)
-                    to: Theme.red600
-                    duration: 500
-                    easing.type: Easing.InOutSine
-                }
-            }
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizeSm
+            font.weight: Font.Black
         }
     }
 }
