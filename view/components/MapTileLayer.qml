@@ -39,32 +39,107 @@ Item {
 
     Canvas {
         id: canvas
-        anchors { fill: parent; margins: -200 }
+        anchors { fill: parent; margins: -Theme.mapCanvasMargin }
         onPaint: {
             var ctx = getContext("2d")
             ctx.clearRect(0, 0, width, height)
 
             var z = root.tileZoom
-            var cx = root.lngToTileX(root.centerLng, z)
-            var cy = root.latToTileY(root.centerLat, z)
             var wx = root.worldX(root.centerLng, z)
             var wy = root.worldY(root.centerLat, z)
-            var originX = width / 2 - wx + cx * root.ppt
-            var originY = height / 2 - wy + cy * root.ppt
 
-            for (var dy = -root.halfGrid; dy <= root.halfGrid; dy++) {
-                for (var dx = -root.halfGrid; dx <= root.halfGrid; dx++) {
-                    var tx = cx + dx
-                    var ty = cy + dy
-                    if (ty < 0 || ty >= Math.pow(2, z)) continue
-                    var sx = originX + dx * root.ppt
-                    var sy = originY + dy * root.ppt
-                    if (sx + root.ppt < 0 || sx > width || sy + root.ppt < 0 || sy > height) continue
-                    var url = root.tileBaseUrl + z + "/" + tx + "/" + ty + ".png"
-                    ctx.drawImage(url, sx, sy, root.ppt, root.ppt)
+            ctx.fillStyle = Theme.mapBackground
+            ctx.fillRect(0, 0, width, height)
+
+            if (Theme.useRasterMapTiles) {
+                var cx = root.lngToTileX(root.centerLng, z)
+                var cy = root.latToTileY(root.centerLat, z)
+                var originX = width / 2 - wx + cx * root.ppt
+                var originY = height / 2 - wy + cy * root.ppt
+
+                for (var dy = -root.halfGrid; dy <= root.halfGrid; dy++) {
+                    for (var dx = -root.halfGrid; dx <= root.halfGrid; dx++) {
+                        var tx = cx + dx
+                        var ty = cy + dy
+                        if (ty < 0 || ty >= Math.pow(2, z)) continue
+                        var sx = originX + dx * root.ppt
+                        var sy = originY + dy * root.ppt
+                        if (sx + root.ppt < 0 || sx > width || sy + root.ppt < 0 || sy > height) continue
+                        var url = root.tileBaseUrl + z + "/" + tx + "/" + ty + ".png"
+                        ctx.drawImage(url, sx, sy, root.ppt, root.ppt)
+                    }
+                }
+                return
+            }
+
+            var minor = Theme.mapMinorRoadSpacing
+            var major = Theme.mapMajorRoadSpacing
+            var xOffset = ((wx % minor) + minor) % minor
+            var yOffset = ((wy % minor) + minor) % minor
+
+            ctx.fillStyle = Theme.mapBlockFill
+            for (var by = -yOffset; by < height; by += minor) {
+                for (var bx = -xOffset; bx < width; bx += minor) {
+                    ctx.fillRect(bx + Theme.mapMajorRoadWidth, by + Theme.mapMajorRoadWidth,
+                                 minor - Theme.mapMajorRoadWidth * 2,
+                                 minor - Theme.mapMajorRoadWidth * 2)
                 }
             }
+
+            ctx.lineCap = "round"
+            ctx.strokeStyle = Theme.mapMinorRoad
+            ctx.lineWidth = Theme.mapMinorRoadWidth
+            ctx.beginPath()
+            for (var x = -xOffset; x < width; x += minor) {
+                ctx.moveTo(x, 0)
+                ctx.lineTo(x, height)
+            }
+            for (var y = -yOffset; y < height; y += minor) {
+                ctx.moveTo(0, y)
+                ctx.lineTo(width, y)
+            }
+            ctx.stroke()
+
+            ctx.strokeStyle = Theme.mapMajorRoad
+            ctx.lineWidth = Theme.mapMajorRoadWidth
+            ctx.beginPath()
+            var majorXOffset = ((wx % major) + major) % major
+            var majorYOffset = ((wy % major) + major) % major
+            for (var mx = -majorXOffset; mx < width; mx += major) {
+                ctx.moveTo(mx, 0)
+                ctx.lineTo(mx, height)
+            }
+            for (var my = -majorYOffset; my < height; my += major) {
+                ctx.moveTo(0, my)
+                ctx.lineTo(width, my)
+            }
+            ctx.stroke()
+
+            ctx.strokeStyle = Theme.mapWaterway
+            ctx.lineWidth = Theme.mapDiagonalRoadWidth
+            ctx.beginPath()
+            ctx.moveTo(width * Theme.mapWaterwayStartXFactor - xOffset, height)
+            ctx.bezierCurveTo(width * Theme.mapWaterwayControl1XFactor,
+                               height * Theme.mapWaterwayControl1YFactor,
+                               width * Theme.mapWaterwayControl2XFactor,
+                               height * Theme.mapWaterwayControl2YFactor,
+                               width,
+                               height * Theme.mapWaterwayEndYFactor + yOffset)
+            ctx.stroke()
+
+            ctx.strokeStyle = Theme.mapMajorRoad
+            ctx.lineWidth = Theme.mapDiagonalRoadWidth
+            ctx.beginPath()
+            ctx.moveTo(-majorXOffset, height * Theme.mapDiagonalRoadStartYFactor)
+            ctx.lineTo(width, height * Theme.mapDiagonalRoadEndYFactor + majorYOffset)
+            ctx.stroke()
         }
-        Timer { interval: Theme.mapTileRepaintInterval; running: true; repeat: true; onTriggered: canvas.requestPaint() }
+        Timer {
+            interval: Theme.mapTileRepaintInterval
+            running: Theme.useRasterMapTiles
+            repeat: true
+            onTriggered: canvas.requestPaint()
+        }
+        Component.onCompleted: requestPaint()
     }
 }

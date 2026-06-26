@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QVariantMap>
+#include <QByteArray>
 #include "viewmodel/TelemetryViewModel.h"
 #include "viewmodel/ScreenViewModel.h"
 #include "viewmodel/MediaViewModel.h"
@@ -23,8 +24,10 @@ int main(int argc, char *argv[])
     // ── QML Engine ───────────────────────────────────────────
     QQmlApplicationEngine engine;
 
-    // Add Qt5Compat GraphicalEffects QML module path
-    engine.addImportPath(QStringLiteral("/opt/homebrew/Cellar/qt5compat/6.11.0/share/qt/qml"));
+    const QByteArray extraQmlImportPath = qgetenv("QHUD_QML_IMPORT_PATH");
+    if (!extraQmlImportPath.isEmpty()) {
+        engine.addImportPath(QString::fromLocal8Bit(extraQmlImportPath));
+    }
 
     engine.rootContext()->setContextProperty(
         QStringLiteral("telemetryVM"), &telemetryVM);

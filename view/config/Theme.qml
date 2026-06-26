@@ -102,9 +102,29 @@ QtObject {
     readonly property real mapDefaultZoom: 17.5
     readonly property real mapTilt: 60.0
     readonly property real headingSmoothing: 0.05
+    readonly property bool useRasterMapTiles: false
     readonly property int mapTileGridSize: 7
     readonly property int mapTileRepaintInterval: 400
     readonly property int routeRepaintInterval: 100
+    readonly property int mapCanvasMargin: 120
+    readonly property int mapMinorRoadSpacing: 96
+    readonly property int mapMajorRoadSpacing: 288
+    readonly property int mapMinorRoadWidth: 2
+    readonly property int mapMajorRoadWidth: 5
+    readonly property int mapDiagonalRoadWidth: 4
+    readonly property real mapWaterwayStartXFactor: 0.08
+    readonly property real mapWaterwayControl1XFactor: 0.24
+    readonly property real mapWaterwayControl1YFactor: 0.64
+    readonly property real mapWaterwayControl2XFactor: 0.42
+    readonly property real mapWaterwayControl2YFactor: 0.52
+    readonly property real mapWaterwayEndYFactor: 0.18
+    readonly property real mapDiagonalRoadStartYFactor: 0.78
+    readonly property real mapDiagonalRoadEndYFactor: 0.26
+    readonly property color mapBackground: "#080b0f"
+    readonly property color mapBlockFill: Qt.rgba(1, 1, 1, 0.015)
+    readonly property color mapMinorRoad: Qt.rgba(148/255, 163/255, 184/255, 0.11)
+    readonly property color mapMajorRoad: Qt.rgba(148/255, 163/255, 184/255, 0.24)
+    readonly property color mapWaterway: Qt.rgba(6/255, 182/255, 212/255, 0.13)
 
     // ─── Car marker ──────────────────────────────────────────────────
     readonly property int carMarkerWidth: 40

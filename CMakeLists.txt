@@ -11,8 +11,6 @@ find_package(Qt6 REQUIRED COMPONENTS
     Gui
     Quick
     QuickControls2
-    Positioning
-    Location
     Core5Compat
 )
 
@@ -51,12 +49,15 @@ target_link_libraries(QHUD PRIVATE
     Qt6::Gui
     Qt6::Quick
     Qt6::QuickControls2
-    Qt6::Positioning
-    Qt6::Location
     Qt6::Core5Compat
 )
 
 set_target_properties(QHUD PROPERTIES
     WIN32_EXECUTABLE TRUE
     MACOSX_BUNDLE TRUE
+)
+
+install(TARGETS QHUD
+    BUNDLE DESTINATION .
+    RUNTIME DESTINATION bin
 )
