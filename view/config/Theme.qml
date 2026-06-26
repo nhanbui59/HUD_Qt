@@ -103,6 +103,7 @@ QtObject {
     readonly property real mapTilt: 60.0
     readonly property real headingSmoothing: 0.05
     readonly property bool useRasterMapTiles: true
+    readonly property bool useOfflineMapTiles: true
     readonly property int mapTileGridSize: 7
     readonly property int mapTileRepaintInterval: 400
     readonly property int routeRepaintInterval: 100

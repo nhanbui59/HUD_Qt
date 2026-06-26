@@ -37,7 +37,9 @@ Run the binary directly:
 ## Current Embedded UI Decisions
 
 - Navigation is 1024x600.
-- Raster map tile downloads are enabled by default for accurate street detail.
+- Raster map tiles are enabled by default for accurate street detail.
+- A 49-tile offline cache around the HCMC route is embedded at zoom 17.
+- The app reads offline tiles first; network tiles are only used when offline tiles are disabled.
 - The local lightweight vector grid remains only as a fallback when raster tiles are disabled.
 - Route repaint interval is reduced to 100ms.
 - Map repaint timer only runs when raster tiles are explicitly enabled.

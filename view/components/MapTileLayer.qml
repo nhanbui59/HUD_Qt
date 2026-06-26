@@ -34,6 +34,13 @@ Item {
         return { x: width / 2 + (swx - wcx), y: height / 2 + (swy - wcy) }
     }
 
+    function tileUrl(z, x, y) {
+        if (Theme.useOfflineMapTiles) {
+            return "qrc:/map_tiles/dark_all/" + z + "/" + x + "/" + y + ".png"
+        }
+        return tileBaseUrl + z + "/" + x + "/" + y + ".png"
+    }
+
     onCenterLatChanged: canvas.requestPaint()
     onCenterLngChanged: canvas.requestPaint()
 
@@ -65,8 +72,7 @@ Item {
                         var sx = originX + dx * root.ppt
                         var sy = originY + dy * root.ppt
                         if (sx + root.ppt < 0 || sx > width || sy + root.ppt < 0 || sy > height) continue
-                        var url = root.tileBaseUrl + z + "/" + tx + "/" + ty + ".png"
-                        ctx.drawImage(url, sx, sy, root.ppt, root.ppt)
+                        ctx.drawImage(root.tileUrl(z, tx, ty), sx, sy, root.ppt, root.ppt)
                     }
                 }
                 return
